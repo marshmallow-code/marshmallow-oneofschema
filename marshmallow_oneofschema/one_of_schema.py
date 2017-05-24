@@ -57,6 +57,7 @@ class OneOfSchema(Schema):
     type_field = 'type'
     type_field_remove = True
     type_schemas = []
+    default_schema = None
 
     def get_obj_type(self, obj):
         """Returns name of object schema"""
@@ -90,7 +91,7 @@ class OneOfSchema(Schema):
                 '_schema': 'Unknown object class: %s' % obj.__class__.__name__
             })
 
-        type_schema = self.type_schemas.get(obj_type)
+        type_schema = self.type_schemas.get(obj_type, self.default_schema)
         if not type_schema:
             return MarshalResult(None, {
                 '_schema': 'Unsupported object type: %s' % obj_type
@@ -144,7 +145,7 @@ class OneOfSchema(Schema):
                 self.type_field: ['Missing data for required field.']
             })
 
-        type_schema = self.type_schemas.get(data_type)
+        type_schema = self.type_schemas.get(data_type, self.default_schema)
         if not type_schema:
             return UnmarshalResult({}, {
                 self.type_field: ['Unsupported value: %s' % data_type],
