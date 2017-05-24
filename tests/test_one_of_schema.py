@@ -67,7 +67,21 @@ class BazSchema(m.Schema):
         return Baz(**data)
 
 
+class Qux():
+    def __repr__(self):
+        return '<Qux>'
+
+
+class DefaultSchema(m.Schema):
+    value = f.String(default='default')
+
+    @m.post_load
+    def make_baz(self, data):
+        return Qux(**data)
+
+
 class MySchema(OneOfSchema):
+    default_schema = DefaultSchema
     type_schemas = {
         'Foo': FooSchema,
         'Bar': BarSchema,
@@ -89,6 +103,13 @@ class TestOneOfSchema:
         result = MySchema().dump([Foo('hello'), Bar(123)], many=True)
         assert [{'type': 'Foo', 'value': 'hello'},
                 {'type': 'Bar', 'value': 123}] == result.data
+        assert {} == result.errors
+
+    def test_dump_default(self):
+        result = MySchema().dump([Foo('hello'), Bar(123), Qux()], many=True)
+        assert [{'type': 'Foo', 'value': 'hello'},
+                {'type': 'Bar', 'value': 123},
+                {'type': 'Qux', 'value': 'default'}] == result.data
         assert {} == result.errors
 
     def test_dump_many_in_constructor(self):

@@ -112,6 +112,22 @@ You can customize type field with `type_field` class property:
         MyUberSchema().dump([Foo(foo='hello'), Bar(bar=123)], many=True).data
         # => [{'object_type': 'Foo', 'foo': 'hello'}, {'object_type': 'Bar', 'bar': 123}]
 
+You can set a default schema with `default_schema` class property:
+
+.. code:: python
+
+        class MyUberSchema(OneOfSchema):
+            default_schema = BazSchema
+            type_field = 'object_type'
+            type_schemas = {
+                'Foo': FooSchema,
+                'Bar': BarSchema,
+            }
+
+        MyUberSchema().dump([Foo(foo='hello'), Bar(bar=123), Baz(baz='default')], many=True).data
+        # => [{'object_type': 'Foo', 'foo': 'hello'}, {'object_type': 'Bar', 'bar': 123}, {'object_type': 'Baz', 'baz': 'default'}]
+
+
 You can use resulting schema everywhere marshmallow.Schema can be used, e.g.
 
 .. code:: python
