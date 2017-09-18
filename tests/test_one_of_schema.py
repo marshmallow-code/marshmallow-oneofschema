@@ -425,6 +425,7 @@ class TestOneOfSchema:
 
         class OptionalValueSchema(m.Schema):
             value = f.String()
+
             @m.post_load
             def make_optional_value(self, data):
                 return OptionalValue(**data)
@@ -436,6 +437,7 @@ class TestOneOfSchema:
 
         class OptionalKeySchema(m.Schema):
             key = f.String()
+
             @m.post_load
             def make_optional_key(self, data):
                 return OptionalKey(**data)
