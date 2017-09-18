@@ -101,7 +101,7 @@ class OneOfSchema(Schema):
         result = schema.dump(
             obj, many=False, update_fields=update_fields, **kwargs
         )
-        if result.data:
+        if result.data is not None:
             result.data[self.type_field] = obj_type
         return result
 
