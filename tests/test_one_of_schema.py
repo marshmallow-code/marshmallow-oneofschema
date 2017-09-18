@@ -416,3 +416,36 @@ class TestOneOfSchema:
         unmarshalled = schema.load(marshalled.data, many=True)
         assert data == unmarshalled.data
         assert {} == unmarshalled.errors
+
+    def test_empty_dict_serialization(self):
+        class OptionalValue:
+            def __init__(self, value=None):
+                if value is not None:
+                    self.value = value
+
+        class OptionalValueSchema(m.Schema):
+            value = f.String()
+            @m.post_load
+            def make_optional_value(self, data):
+                return OptionalValue(**data)
+
+        class OptionalKey:
+            def __init__(self, key=None):
+                if key is not None:
+                    self.key = key
+
+        class OptionalKeySchema(m.Schema):
+            key = f.String()
+            @m.post_load
+            def make_optional_key(self, data):
+                return OptionalKey(**data)
+
+        class OptionalOneOfSchema(OneOfSchema):
+            type_schemas = {
+                'OptionalValue': OptionalValueSchema,
+                'OptionalKey': OptionalKeySchema,
+            }
+
+        ooos = OptionalOneOfSchema()
+        s = ooos.dump(OptionalValue())
+        assert type(ooos.load(s.data).data) == OptionalValue
