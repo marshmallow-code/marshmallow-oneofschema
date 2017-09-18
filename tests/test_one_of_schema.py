@@ -450,4 +450,4 @@ class TestOneOfSchema:
 
         ooos = OptionalOneOfSchema()
         s = ooos.dump(OptionalValue())
-        assert type(ooos.load(s.data).data) == OptionalValue
+        assert isinstance(ooos.load(s.data).data, OptionalValue)
