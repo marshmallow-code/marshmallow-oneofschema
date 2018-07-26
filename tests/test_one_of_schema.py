@@ -67,11 +67,36 @@ class BazSchema(m.Schema):
         return Baz(**data)
 
 
+class Bat(object):
+    def __init__(self, value1=None, value2=None, value3=None):
+        self.value1 = value1
+        self.value2 = value2
+        self.value3 = value3
+
+    def __repr__(self):
+        return '<Bat value1=%s value2=%s>' % (self.value1, self.value2)
+
+    def __eq__(self, other):
+        return isinstance(other, self.__class__) and self.value1 == other.value1 \
+            and self.value2 == other.value2
+
+
+class BatSchema(m.Schema):
+    value1 = f.Integer(required=True)
+    value2 = f.String(required=True)
+    value3 = f.String()
+
+    @m.post_load
+    def make_bat(self, data):
+        return Bat(**data)
+
+
 class MySchema(OneOfSchema):
     type_schemas = {
         'Foo': FooSchema,
         'Bar': BarSchema,
         'Baz': BazSchema,
+        'Bat': BatSchema,
     }
 
 
@@ -82,6 +107,17 @@ class TestOneOfSchema:
 
         bar_result = MySchema().dump(Bar(123))
         assert {'type': 'Bar', 'value': 123} == bar_result
+
+    def test_dump_exclude(self):
+        bat_result = MySchema().dump(Bat(1, 'hello', 'i like turtles'))
+        assert {'type': 'Bat', 'value1': 1, 'value2': 'hello', 'value3': 'i like turtles'} == bat_result
+
+        exclude_schema = MySchema(exclude=('value3',))
+        bat_exclude_result = exclude_schema.dump(Bat(1, 'hello', 'i like turtles'))
+        assert {'type': 'Bat', 'value1': 1, 'value2': 'hello'} == bat_exclude_result
+
+        foo_result = exclude_schema.dump(Foo('hello'))
+        assert {'type': 'Foo', 'value': 'hello'} == foo_result
 
     def test_dump_many(self):
         result = MySchema().dump([Foo('hello'), Bar(123)], many=True)
