@@ -180,7 +180,8 @@ class OneOfSchema(Schema):
             })
 
         schema = (
-            type_schema if isinstance(type_schema, Schema) else type_schema(*self._schema_args, **self._schema_kwargs)
+            type_schema if isinstance(type_schema, Schema) else
+            type_schema(*self._schema_args, **self._schema_kwargs)
         )
 
         schema.context.update(getattr(self, 'context', {}))

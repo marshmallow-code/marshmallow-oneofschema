@@ -110,7 +110,12 @@ class TestOneOfSchema:
 
     def test_dump_exclude(self):
         bat_result = MySchema().dump(Bat(1, 'hello', 'i like turtles'))
-        assert {'type': 'Bat', 'value1': 1, 'value2': 'hello', 'value3': 'i like turtles'} == bat_result
+        assert {
+                   'type':   'Bat',
+                   'value1': 1,
+                   'value2': 'hello',
+                   'value3': 'i like turtles'
+               } == bat_result
 
         exclude_schema = MySchema(exclude=('value3',))
         bat_exclude_result = exclude_schema.dump(Bat(1, 'hello', 'i like turtles'))
