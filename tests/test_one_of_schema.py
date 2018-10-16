@@ -179,10 +179,10 @@ class TestOneOfSchema:
                 'Bar': BarSchema,
             }
 
-        TestSchema().load({'type': 'Foo', 'foo': 'hello'})
+        TestSchema(unknown='exclude').load({'type': 'Foo', 'foo': 'hello'})
         assert Nonlocal.data['type'] == 'Foo'
 
-        TestSchema().load({'type': 'Bar', 'bar': 123})
+        TestSchema(unknown='exclude').load({'type': 'Bar', 'bar': 123})
         assert Nonlocal.data['type'] == 'Bar'
 
     def test_load_non_dict(self):
