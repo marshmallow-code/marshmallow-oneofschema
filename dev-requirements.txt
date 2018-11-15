@@ -1,7 +1,7 @@
 marshmallow==3.0.0b20
 
 # Testing
-pytest==3.10.1
+pytest==4.0.0
 tox==3.5.3
 
 # Syntax checking
