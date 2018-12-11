@@ -86,6 +86,16 @@ class MySchema(OneOfSchema):
     }
 
 
+class MyNestedSchema(OneOfSchema):
+    nest_result = True
+    type_schemas = {
+        'Foo': FooSchema,
+        'Bar': BarSchema,
+        'Baz': BazSchema,
+        'Empty': EmptySchema,
+    }
+
+
 class TestOneOfSchema:
     def test_dump(self):
         foo_result = MySchema().dump(Foo('hello'))
@@ -444,3 +454,47 @@ class TestOneOfSchema:
 
         unmarshalled = schema.load(marshalled, many=True)
         assert data == unmarshalled
+
+
+class TestOneOfSchemaNested:
+    def test_dump(self):
+        foo_result = MyNestedSchema().dump(Foo('hello'))
+        assert {'type': 'Foo', 'value': {'value': 'hello'}} == foo_result
+
+        bar_result = MyNestedSchema().dump(Bar(123))
+        assert {'type': 'Bar', 'value': {'value': 123}} == bar_result
+
+    def test_dump_many(self):
+        result = MyNestedSchema().dump([Foo('hello'), Bar(123)], many=True)
+        assert [{'type': 'Foo', 'value': {'value': 'hello'}},
+                {'type': 'Bar', 'value': {'value': 123}}] == result
+
+    def test_dump_many_in_constructor(self):
+        result = MyNestedSchema(many=True).dump([Foo('hello'), Bar(123)])
+        assert [{'type': 'Foo', 'value': {'value': 'hello'}},
+                {'type': 'Bar', 'value': {'value': 123}}] == result
+
+    def test_dump_with_empty_keeps_type(self):
+        result = MyNestedSchema().dump(Empty())
+        assert {'type': 'Empty', 'value': {}} == result
+
+    def test_load(self):
+        foo_result = MyNestedSchema().load({'type': 'Foo', 'value': {'value': 'world'}})
+        assert Foo('world') == foo_result
+
+        bar_result = MyNestedSchema().load({'type': 'Bar', 'value': {'value': 456}})
+        assert Bar(456) == bar_result
+
+    def test_load_many(self):
+        result = MyNestedSchema().load([
+            {'type': 'Foo', 'value': {'value': 'hello world!'}},
+            {'type': 'Bar', 'value': {'value': 123}},
+        ], many=True)
+        assert Foo('hello world!'), Bar(123) == result
+
+    def test_load_many_in_constructor(self):
+        result = MyNestedSchema(many=True).load([
+            {'type': 'Foo', 'value': {'value': 'hello world!'}},
+            {'type': 'Bar', 'value': {'value': 123}},
+        ])
+        assert Foo('hello world!'), Bar(123) == result

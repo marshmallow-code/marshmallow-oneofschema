@@ -56,6 +56,7 @@ class OneOfSchema(Schema):
     """
     type_field = 'type'
     type_field_remove = True
+    nest_result = False
     type_schemas = []
 
     def get_obj_type(self, obj):
@@ -110,6 +111,8 @@ class OneOfSchema(Schema):
         result = schema.dump(
             obj, many=False, **kwargs
         )
+        if self.nest_result:
+            result = {'value': result}
         if result is not None:
             result[self.type_field] = obj_type
         return result
@@ -158,6 +161,9 @@ class OneOfSchema(Schema):
         data_type = data.get(self.type_field)
         if self.type_field in data and self.type_field_remove:
             data.pop(self.type_field)
+
+        if self.nest_result and data['value'] is not None:
+            data = data['value']
 
         if not data_type:
             raise ValidationError({
