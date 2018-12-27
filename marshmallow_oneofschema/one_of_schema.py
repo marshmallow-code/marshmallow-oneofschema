@@ -162,7 +162,7 @@ class OneOfSchema(Schema):
         if self.type_field in data and self.type_field_remove:
             data.pop(self.type_field)
 
-        if self.nest_result is not None:
+        if self.nest_result:
             data = data.get(self._get_nest_result_value())
 
         if not data_type:
