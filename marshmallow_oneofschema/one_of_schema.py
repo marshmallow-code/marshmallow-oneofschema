@@ -56,8 +56,8 @@ class OneOfSchema(Schema):
     """
     type_field = 'type'
     type_field_remove = True
-    nest_result = False
-    type_schemas = []
+    nest_result = None
+    type_schemas = None
 
     def get_obj_type(self, obj):
         """Returns name of object schema"""
@@ -112,7 +112,7 @@ class OneOfSchema(Schema):
             obj, many=False, **kwargs
         )
         if self.nest_result:
-            result = {'value': result}
+            result = {self._get_nest_result_value(): result}
         if result is not None:
             result[self.type_field] = obj_type
         return result
@@ -162,8 +162,8 @@ class OneOfSchema(Schema):
         if self.type_field in data and self.type_field_remove:
             data.pop(self.type_field)
 
-        if self.nest_result and data['value'] is not None:
-            data = data['value']
+        if self.nest_result is not None:
+            data = data.get(self._get_nest_result_value())
 
         if not data_type:
             raise ValidationError({
@@ -196,3 +196,9 @@ class OneOfSchema(Schema):
         except ValidationError as ve:
             return ve.messages
         return {}
+
+    def _get_nest_result_value(self):
+        if isinstance(self.nest_result, str):
+            return self.nest_result
+        else:
+            return 'value'

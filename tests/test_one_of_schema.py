@@ -498,3 +498,11 @@ class TestOneOfSchemaNested:
             {'type': 'Bar', 'value': {'value': 123}},
         ])
         assert Foo('hello world!'), Bar(123) == result
+
+    def test_load_no_value(self):
+        try:
+            MyNestedSchema().load({'type': 'Foo'})
+        except m.ValidationError:
+            pass
+        else:
+            assert False, 'expected a ValidationError'
