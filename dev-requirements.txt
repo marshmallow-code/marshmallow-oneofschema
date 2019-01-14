@@ -2,7 +2,7 @@ marshmallow==3.0.0rc1
 
 # Testing
 pytest==4.1.1
-tox==3.6.1
+tox==3.7.0
 
 # Syntax checking
 flake8==3.6.0
