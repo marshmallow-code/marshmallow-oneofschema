@@ -5,7 +5,7 @@ pytest==4.2.1
 tox==3.7.0
 
 # Syntax checking
-flake8==3.7.5
+flake8==3.7.6
 
 # Install this package in development mode
 -e .
