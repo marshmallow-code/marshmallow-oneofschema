@@ -1,4 +1,4 @@
-marshmallow==3.0.0rc5
+marshmallow==3.0.0rc6
 
 # Testing
 pytest==4.5.0
