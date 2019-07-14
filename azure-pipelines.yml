@@ -1,0 +1,25 @@
+trigger:
+  branches:
+    include: [dev, test-me-*]
+  tags:
+    include: ['*']
+
+resources:
+  repositories:
+    - repository: sloria
+      type: github
+      endpoint: github
+      name: sloria/azure-pipeline-templates
+      ref: refs/heads/sloria
+
+jobs:
+- template: job--python-tox.yml@sloria
+  parameters:
+    toxenvs: [lint, py35, py36, py37, pypi-description]
+    os: linux
+- template: job--pypi-release.yml@sloria
+  parameters:
+    python: "3.7"
+    distributions: "sdist bdist_wheel"
+    dependsOn:
+      - tox_linux
