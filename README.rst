@@ -2,8 +2,8 @@
 marshmallow-oneofschema
 =======================
 
-.. image:: https://badgen.net/travis/marshmallow-code/marshmallow-oneofschema/master
-    :target: https://travis-ci.org/marshmallow-code/marshmallow-oneofschema
+.. image:: https://dev.azure.com/sloria/sloria/_apis/build/status/marshmallow-code.marshmallow-oneofschema?branchName=master
+    :target: https://dev.azure.com/sloria/sloria/_build/latest?definitionId=13&branchName=master
     :alt: Build Status
 
 .. image:: https://badgen.net/badge/marshmallow/3
