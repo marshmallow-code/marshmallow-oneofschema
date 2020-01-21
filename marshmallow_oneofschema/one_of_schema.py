@@ -57,7 +57,7 @@ class OneOfSchema(Schema):
 
     type_field = "type"
     type_field_remove = True
-    type_schemas = []
+    type_schemas = {}
 
     def get_obj_type(self, obj):
         """Returns name of object schema"""
