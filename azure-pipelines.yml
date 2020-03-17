@@ -15,11 +15,11 @@ resources:
 jobs:
 - template: job--python-tox.yml@sloria
   parameters:
-    toxenvs: [lint, py35, py36, py37, check-build]
+    toxenvs: [lint, py35, py36, py37, py38, check-build]
     os: linux
 - template: job--pypi-release.yml@sloria
   parameters:
-    python: "3.7"
+    python: "3.8"
     distributions: "sdist bdist_wheel"
     dependsOn:
       - tox_linux
