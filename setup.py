@@ -2,7 +2,7 @@ from setuptools import setup
 
 EXTRAS_REQUIRE = {
     "tests": ["pytest", "mock"],
-    "lint": ["flake8==3.8.4", "flake8-bugbear==20.1.4", "pre-commit~=1.17.0"],
+    "lint": ["flake8==3.8.4", "flake8-bugbear==20.1.4", "pre-commit>=1.17,<2.8"],
 }
 EXTRAS_REQUIRE["dev"] = EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["lint"] + ["tox"]
 
