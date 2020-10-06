@@ -6,7 +6,7 @@ Changelog
 
 Features:
 
-- Pass ``**kwargs`` to inner schemas (#111).
+- Pass ``**kwargs`` to inner schemas (#108).
   Thanks @fuhrysteve for the PR.
 
 2.0.1 (2019-07-14)
