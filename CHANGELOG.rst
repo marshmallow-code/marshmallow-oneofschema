@@ -1,6 +1,14 @@
 Changelog
 ---------
 
+2.1.0 (unreleased)
+++++++++++++++++++
+
+Features:
+
+- Pass ``**kwargs`` to inner schemas (#111).
+  Thanks @fuhrysteve for the PR.
+
 2.0.1 (2019-07-14)
 ++++++++++++++++++
 
