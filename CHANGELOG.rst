@@ -1,6 +1,11 @@
 Changelog
 ---------
 
+3.0.0 (unreleased)
+++++++++++++++++++
+
+- Only support Python>=3.6 and marshmallow>=3.0.0.
+
 2.1.0 (2020-10-05)
 ++++++++++++++++++
 
