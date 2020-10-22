@@ -105,7 +105,7 @@ class OneOfSchema(Schema):
         schema.context.update(getattr(self, "context", {}))
 
         result = schema.dump(obj, many=False, **kwargs)
-        if result is not None:
+        if result is not None and not self.type_field_remove:
             result[self.type_field] = obj_type
         return result
 
