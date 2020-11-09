@@ -60,8 +60,17 @@ class OneOfSchema(Schema):
     type_schemas = {}
 
     def get_obj_type(self, obj):
-        """Returns name of object schema"""
+        """Returns name of the schema during dump() calls, given the object
+        being dumped."""
         return obj.__class__.__name__
+
+    def get_data_type(self, data):
+        """Returns name of the schema during load() calls, given the data being
+        loaded. Defaults to looking up `type_field` in the data."""
+        data_type = data.get(self.type_field)
+        if self.type_field in data and self.type_field_remove:
+            data.pop(self.type_field)
+        return data_type
 
     def dump(self, obj, *, many=None, **kwargs):
         errors = {}
@@ -149,10 +158,7 @@ class OneOfSchema(Schema):
 
         data = dict(data)
         unknown = unknown or self.unknown
-
-        data_type = data.get(self.type_field)
-        if self.type_field in data and self.type_field_remove:
-            data.pop(self.type_field)
+        data_type = self.get_data_type(data)
 
         if not data_type:
             raise ValidationError(
