@@ -185,6 +185,29 @@ class TestOneOfSchema:
         TestSchema(unknown="exclude").load({"type": "Bar", "bar": 123})
         assert Nonlocal.data["type"] == "Bar"
 
+    def test_post_dump_remove_type_field(self):
+        # test using a @post_dump hook to remove the type field which
+        # OneOfSchema will add to the data by default
+
+        # define a schema without post_dump
+        class MySchemaVariant1(OneOfSchema):
+            type_schemas = {"Foo": FooSchema, "Bar": BarSchema}
+
+        # and a variant with post_dump
+        class MySchemaVariant2(MySchemaVariant1):
+            @m.post_dump
+            def remove_type_field(self, data, **kwargs):
+                del data["type"]
+                return data
+
+        # sanity check: `type` should be present in a dump from Variant1
+        assert MySchemaVariant1().dump(Foo("someval")) == {
+            "type": "Foo",
+            "value": "someval",
+        }
+        # now check that the post_dump hook fired
+        assert MySchemaVariant2().dump(Foo("someval")) == {"value": "someval"}
+
     def test_load_non_dict(self):
         with pytest.raises(m.ValidationError) as exc_info:
             MySchema().load(123)
