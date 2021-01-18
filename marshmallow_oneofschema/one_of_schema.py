@@ -145,7 +145,9 @@ class OneOfSchema(Schema):
 
     def _load(self, data, *, partial=None, unknown=None, **kwargs):
         if not isinstance(data, dict):
-            raise ValidationError({"_schema": "Invalid data type: %s" % data})
+            # Wrap `data` into a tuple to avoid possible unpacking errors
+            # during string formatting in case it already is a tuple.
+            raise ValidationError({"_schema": "Invalid data type: %s" % (data,)})
 
         data = dict(data)
         unknown = unknown or self.unknown
