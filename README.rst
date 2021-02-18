@@ -119,13 +119,16 @@ You can use resulting schema everywhere marshmallow.Schema can be used, e.g.
     class MyOtherSchema(m.Schema):
         items = f.List(f.Nested(MyUberSchema))
 
+Building OneOfSchema with a decorator
+------------------------------------
+
 When creating "one of" schemas with many options it can become cumbersome to maintain `type_schemas` dict manually.
-In this case you can leave it empty at first and register member schemas to your OneOfSchema with a decorator:
+In this case you can leave it empty at first and register member schemas to your OneOfSchema with the following decorator:
 
 .. code:: python
 
     class MyUberSchema(OneOfSchema):
-        pass
+        type_schemas = {}
 
 
     @MyUberSchema.register_one_of
@@ -143,6 +146,8 @@ By default schemas are named with class name with removed "Schema" suffix, which
 
 
     class MyUberSchema(OneOfSchema):
+        type_schemas = {}
+
         def schema_name(schema_class):
             return schema_class._model_class.__name__
 

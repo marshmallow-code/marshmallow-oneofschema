@@ -187,7 +187,10 @@ class OneOfSchema(Schema):
         """Key used for schema classes in type_schemas dict. The default is
         schema class name stripped of the word 'Schema', if present.
         """
-        return schema_class.__name__.replace("Schema", "")
+        schema_class_name = schema_class.__name__
+        if schema_class_name.endswith("Schema"):
+            schema_class_name = schema_class_name[: -len("Schema")]
+        return schema_class_name
 
     @classmethod
     def register_one_of(cls, schema_class):
@@ -199,3 +202,4 @@ class OneOfSchema(Schema):
         >>>     ...
         """
         cls.type_schemas[cls.schema_name(schema_class)] = schema_class
+        return schema_class
