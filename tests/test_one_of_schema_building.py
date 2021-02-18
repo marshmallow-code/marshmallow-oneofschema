@@ -19,7 +19,7 @@ class MySchemaWithCustomNames(OneOfSchema):
         return self.known_classes.index(obj.__class__)
 
     @classmethod
-    def schema_name(cls, schema_class):
+    def get_schema_name(cls, schema_class):
         cls.counter += 1
         return str(cls.counter - 1)
 
@@ -86,9 +86,9 @@ def test_default_schema_naming():
     class SomeObjectSchema:
         pass
 
-    assert OneOfSchema.schema_name(SomeObjectSchema) == "SomeObject"
+    assert OneOfSchema.get_schema_name(SomeObjectSchema) == "SomeObject"
 
     class AnyOtherSchemaClass:
         pass
 
-    assert OneOfSchema.schema_name(AnyOtherSchemaClass) == "AnyOtherSchemaClass"
+    assert OneOfSchema.get_schema_name(AnyOtherSchemaClass) == "AnyOtherSchemaClass"

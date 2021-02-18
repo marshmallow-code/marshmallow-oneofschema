@@ -183,7 +183,7 @@ class OneOfSchema(Schema):
         return {}
 
     @staticmethod
-    def schema_name(schema_class):
+    def get_schema_name(schema_class):
         """Key used for schema classes in type_schemas dict. The default is
         schema class name stripped of the word 'Schema', if present.
         """
@@ -201,5 +201,5 @@ class OneOfSchema(Schema):
         >>> class OneParticularSchema(Schema):
         >>>     ...
         """
-        cls.type_schemas[cls.schema_name(schema_class)] = schema_class
+        cls.type_schemas[cls.get_schema_name(schema_class)] = schema_class
         return schema_class

@@ -136,7 +136,7 @@ In this case you can leave it empty at first and later register member schemas t
         pass
 
 By default schemas are named with class name with removed "Schema" suffix, which corresponds to the most common case of
-"Foo" - "FooSchema" naming convention. If this is not the case, you can customize keys in `type_schemas` by overriding `schema_name` method:
+"Foo" - "FooSchema" naming convention. If this is not the case, you can customize keys in `type_schemas` by overriding `get_schema_name` method:
 
 .. code:: python
 
@@ -149,7 +149,7 @@ By default schemas are named with class name with removed "Schema" suffix, which
         type_schemas = {}
 
         @staticmethod
-        def schema_name(schema_class):
+        def get_schema_name(schema_class):
             return schema_class._ModelClass.__name__
 
 
