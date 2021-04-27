@@ -154,7 +154,7 @@ class OneOfSchema(Schema):
         if self.type_field in data and self.type_field_remove:
             data.pop(self.type_field)
 
-        if not data_type:
+        if data_type is None:
             raise ValidationError(
                 {self.type_field: ["Missing data for required field."]}
             )
