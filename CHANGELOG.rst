@@ -1,6 +1,13 @@
 Changelog
 ---------
 
+3.0.1 (unreleased)
+++++++++++++++++++
+
+Bug fixes:
+
+- Fix using integers as values for type field (#142).
+
 3.0.0 (2021-07-06)
 ++++++++++++++++++
 
