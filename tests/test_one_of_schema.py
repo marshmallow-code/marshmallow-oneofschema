@@ -410,3 +410,29 @@ class TestOneOfSchema:
 
         unmarshalled = schema.load(marshalled, many=True)
         assert data == unmarshalled
+
+    def test_using_custom_data_type_func(self):
+        # test that you can use the method `get_data_type` to override the
+        # detection of `type` values on data loading
+
+        class FooSchema(m.Schema):
+            value = f.String()
+
+        class BarSchema(m.Schema):
+            value = f.Integer()
+            type = f.String()
+
+        class CustomDataTypeSchema(OneOfSchema):
+            type_schemas = {"foo": FooSchema, "bar": BarSchema}
+
+            def get_data_type(self, data):
+                # if `type` is not present or has a value of `None`, type is
+                # `foo` -- otherwise it's `bar`
+                if data.get("type") is None:
+                    return "foo"
+                return "bar"
+
+        schema = CustomDataTypeSchema()
+        source_data = [{"value": "hello"}, {"type": "blahblahblah", "value": 111}]
+        loaded_data = schema.load(source_data, many=True)
+        assert source_data == loaded_data

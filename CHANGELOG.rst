@@ -1,10 +1,17 @@
 Changelog
 ---------
 
-3.0.0 (unreleased)
+3.0.0 (2021-07-06)
 ++++++++++++++++++
 
+Deprecations/Removals:
+
 - Only support Python>=3.6 and marshmallow>=3.0.0.
+
+Features:
+
+- Add ``get_data_type`` method to OneOfSchemas, allowing schemas to define
+  a custom method for determining the type string (PR #128).
 
 2.1.0 (2020-10-05)
 ++++++++++++++++++

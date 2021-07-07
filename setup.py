@@ -2,7 +2,7 @@ from setuptools import setup
 
 EXTRAS_REQUIRE = {
     "tests": ["pytest", "mock"],
-    "lint": ["flake8==3.9.1", "flake8-bugbear==21.4.3", "pre-commit~=2.7"],
+    "lint": ["flake8==3.9.2", "flake8-bugbear==21.4.3", "pre-commit~=2.7"],
 }
 EXTRAS_REQUIRE["dev"] = EXTRAS_REQUIRE["tests"] + EXTRAS_REQUIRE["lint"] + ["tox"]
 
@@ -15,7 +15,7 @@ def read(fname):
 
 setup(
     name="marshmallow-oneofschema",
-    version="2.1.0",
+    version="3.0.0",
     description="marshmallow multiplexing schema",
     long_description=read("README.rst"),
     author="Maxim Kulkin",
