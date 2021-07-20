@@ -99,7 +99,7 @@ class OneOfSchema(Schema):
 
     def _dump(self, obj, *, update_fields=True, **kwargs):
         obj_type = self.get_obj_type(obj)
-        if not obj_type:
+        if obj_type is None:
             return (
                 None,
                 {"_schema": "Unknown object class: %s" % obj.__class__.__name__},
