@@ -187,3 +187,25 @@ class OneOfSchema(Schema):
         except ValidationError as ve:
             return ve.messages
         return {}
+
+    @staticmethod
+    def get_schema_name(schema_class):
+        """Key used for schema classes in type_schemas dict. The default is
+        schema class name stripped of the word 'Schema', if present.
+        """
+        schema_class_name = schema_class.__name__
+        if schema_class_name.endswith("Schema"):
+            schema_class_name = schema_class_name[: -len("Schema")]
+        return schema_class_name
+
+    @classmethod
+    def register_one_of(cls, schema_class):
+        """A decorator to register schema class as one of the options for the
+        OneOfSchema without manually modifying type_schemas dict. Example:
+
+        >>> @MyOneOfSchema.one_of
+        >>> class OneParticularSchema(Schema):
+        >>>     ...
+        """
+        cls.type_schemas[cls.get_schema_name(schema_class)] = schema_class
+        return schema_class
