@@ -57,7 +57,45 @@ class OneOfSchema(Schema):
 
     type_field = "type"
     type_field_remove = True
+    type_field_dump = True
     type_schemas = {}
+
+    def __init__(self, **kwargs):
+        only = kwargs.get("only")
+        exclude = kwargs.get("exclude", ())
+        if only is not None:
+            self.type_field_dump = self.type_field in only
+            kwargs["only"] = ()
+        if exclude:
+            self.type_field_dump = self.type_field not in exclude
+            kwargs["exclude"] = ()
+        super().__init__(**kwargs)
+        self._init_type_schemas(only, exclude)
+
+    def _init_type_schemas(self, only, exclude):
+        self.type_schemas = {
+            k: self._create_type_schema_instance(v, only, exclude)
+            for k, v in self.type_schemas.items()
+        }
+
+    def _create_type_schema_instance(self, SchemaCls, only, exclude):
+        if only or exclude:
+            if SchemaCls.opts.fields:
+                available_field_names = self.set_class(SchemaCls.opts.fields)
+            else:
+                available_field_names = self.set_class(
+                    SchemaCls._declared_fields.keys()
+                )
+                if SchemaCls.opts.additional:
+                    available_field_names |= self.set_class(
+                        SchemaCls.opts.additional
+                    )
+            if only:
+                only = self.set_class(only) & available_field_names
+            if exclude:
+                exclude = self.set_class(exclude) & available_field_names
+
+        return SchemaCls(only=only, exclude=exclude)
 
     def get_obj_type(self, obj):
         """Returns name of the schema during dump() calls, given the object
@@ -105,16 +143,14 @@ class OneOfSchema(Schema):
                 {"_schema": "Unknown object class: %s" % obj.__class__.__name__},
             )
 
-        type_schema = self.type_schemas.get(obj_type)
-        if not type_schema:
+        schema = self.type_schemas.get(obj_type)
+        if not schema:
             return None, {"_schema": "Unsupported object type: %s" % obj_type}
-
-        schema = type_schema if isinstance(type_schema, Schema) else type_schema()
 
         schema.context.update(getattr(self, "context", {}))
 
         result = schema.dump(obj, many=False, **kwargs)
-        if result is not None:
+        if result is not None and self.type_field_dump:
             result[self.type_field] = obj_type
         return result
 
@@ -166,16 +202,16 @@ class OneOfSchema(Schema):
             )
 
         try:
-            type_schema = self.type_schemas.get(data_type)
+            schema = self.type_schemas.get(data_type)
         except TypeError:
             # data_type could be unhashable
-            raise ValidationError({self.type_field: ["Invalid value: %s" % data_type]})
-        if not type_schema:
+            raise ValidationError(
+                {self.type_field: ["Invalid value: %s" % data_type]}
+            )
+        if not schema:
             raise ValidationError(
                 {self.type_field: ["Unsupported value: %s" % data_type]}
             )
-
-        schema = type_schema if isinstance(type_schema, Schema) else type_schema()
 
         schema.context.update(getattr(self, "context", {}))
 

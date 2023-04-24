@@ -115,6 +115,22 @@ class TestOneOfSchema:
         result = MySchema().dump(Empty())
         assert {"type": "Empty"} == result
 
+    def test_dump_only(self):
+        result = MySchema(only=("type", "value1")).dump(
+            [Foo("hello"), Bar(123), Baz(456, 789)], many=True
+        )
+        assert [
+            {"type": "Foo"},
+            {"type": "Bar"},
+            {"type": "Baz", "value1": 456},
+        ] == result
+
+    def test_dump_exclude(self):
+        result = MySchema(exclude=("type", "value2")).dump(
+            [Foo("hello"), Bar(123), Baz(456, 789)], many=True
+        )
+        assert [{"value": "hello"}, {"value": 123}, {"value1": 456}] == result
+
     def test_load(self):
         foo_result = MySchema().load({"type": "Foo", "value": "world"})
         assert Foo("world") == foo_result
