@@ -1,3 +1,5 @@
+import typing
+
 from marshmallow import Schema, ValidationError
 
 
@@ -57,7 +59,7 @@ class OneOfSchema(Schema):
 
     type_field = "type"
     type_field_remove = True
-    type_schemas = {}
+    type_schemas: typing.Dict[str, typing.Type[Schema]] = {}
 
     def get_obj_type(self, obj):
         """Returns name of the schema during dump() calls, given the object
@@ -167,9 +169,11 @@ class OneOfSchema(Schema):
 
         try:
             type_schema = self.type_schemas.get(data_type)
-        except TypeError:
+        except TypeError as error:
             # data_type could be unhashable
-            raise ValidationError({self.type_field: ["Invalid value: %s" % data_type]})
+            raise ValidationError(
+                {self.type_field: ["Invalid value: %s" % data_type]}
+            ) from error
         if not type_schema:
             raise ValidationError(
                 {self.type_field: ["Unsupported value: %s" % data_type]}

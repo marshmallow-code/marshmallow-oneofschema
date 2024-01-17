@@ -1,6 +1,17 @@
 Changelog
 ---------
 
+3.1.0 (unreleased)
+++++++++++++++++++
+
+Features:
+
+- Publish type information.
+
+Support:
+
+- Support Python 3.8-3.12. Older versions are no longer supported.
+
 3.0.2 (2021-11-14)
 ++++++++++++++++++
 
