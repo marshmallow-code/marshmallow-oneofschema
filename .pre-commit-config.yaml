@@ -8,7 +8,6 @@ repos:
   rev: 0.27.3
   hooks:
     - id: check-github-workflows
-    - id: check-readthedocs
 - repo: https://github.com/asottile/blacken-docs
   rev: 1.16.0
   hooks:
