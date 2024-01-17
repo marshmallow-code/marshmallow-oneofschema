@@ -1,8 +1,8 @@
 import marshmallow as m
 import marshmallow.fields as f
-from marshmallow_oneofschema import OneOfSchema
 import pytest
 
+from marshmallow_oneofschema import OneOfSchema
 
 REQUIRED_ERROR = "Missing data for required field."
 
