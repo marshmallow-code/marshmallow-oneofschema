@@ -59,7 +59,7 @@ class OneOfSchema(Schema):
 
     type_field = "type"
     type_field_remove = True
-    type_schemas: typing.Dict[str, type[Schema]] = {}
+    type_schemas: typing.Dict[str, typing.Type[Schema]] = {}
 
     def get_obj_type(self, obj):
         """Returns name of the schema during dump() calls, given the object
