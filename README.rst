@@ -2,8 +2,8 @@
 marshmallow-oneofschema
 =======================
 
-.. image:: https://dev.azure.com/sloria/sloria/_apis/build/status/marshmallow-code.marshmallow-oneofschema?branchName=master
-    :target: https://dev.azure.com/sloria/sloria/_build/latest?definitionId=13&branchName=master
+.. image:: https://github.com/marshmallow-code/marshmallow-oneofschema/actions/workflows/build-release.yml/badge.svg
+    :target: https://github.com/marshmallow-code/flask-marshmallow/actions/workflows/build-release.yml
     :alt: Build Status
 
 .. image:: https://badgen.net/badge/marshmallow/3
