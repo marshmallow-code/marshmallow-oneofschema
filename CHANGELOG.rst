@@ -1,6 +1,14 @@
 Changelog
 ---------
 
+3.1.1 (2024-02-13)
+++++++++++++++++++
+
+Bug fixes:
+
+- Fix type annotation on ``type_schemas`` (#184).
+  Thanks @bester for the PR.
+
 3.1.0 (2024-01-17)
 ++++++++++++++++++
 
