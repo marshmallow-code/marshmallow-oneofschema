@@ -12,7 +12,7 @@ class Foo:
         self.value = value
 
     def __repr__(self):
-        return "<Foo value=%s>" % self.value
+        return f"<Foo value={self.value}>"
 
     def __eq__(self, other):
         return isinstance(other, self.__class__) and self.value == other.value
@@ -31,7 +31,7 @@ class Bar:
         self.value = value
 
     def __repr__(self):
-        return "<Bar value=%s>" % self.value
+        return f"<Bar value={self.value}>"
 
     def __eq__(self, other):
         return isinstance(other, self.__class__) and self.value == other.value
