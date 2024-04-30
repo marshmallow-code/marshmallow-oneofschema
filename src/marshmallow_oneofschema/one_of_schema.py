@@ -104,12 +104,12 @@ class OneOfSchema(Schema):
         if obj_type is None:
             return (
                 None,
-                {"_schema": "Unknown object class: %s" % obj.__class__.__name__},
+                {"_schema": f"Unknown object class: {obj.__class__.__name__}"},
             )
 
         type_schema = self.type_schemas.get(obj_type)
         if not type_schema:
-            return None, {"_schema": "Unsupported object type: %s" % obj_type}
+            return None, {"_schema": f"Unsupported object type: {obj_type}"}
 
         schema = type_schema if isinstance(type_schema, Schema) else type_schema()
 
@@ -156,7 +156,7 @@ class OneOfSchema(Schema):
 
     def _load(self, data, *, partial=None, unknown=None, **kwargs):
         if not isinstance(data, dict):
-            raise ValidationError({"_schema": "Invalid data type: %s" % data})
+            raise ValidationError({"_schema": f"Invalid data type: {data}"})
 
         data = dict(data)
         unknown = unknown or self.unknown
@@ -172,11 +172,11 @@ class OneOfSchema(Schema):
         except TypeError as error:
             # data_type could be unhashable
             raise ValidationError(
-                {self.type_field: ["Invalid value: %s" % data_type]}
+                {self.type_field: [f"Invalid value: {data_type}"]}
             ) from error
         if not type_schema:
             raise ValidationError(
-                {self.type_field: ["Unsupported value: %s" % data_type]}
+                {self.type_field: [f"Unsupported value: {data_type}"]}
             )
 
         schema = type_schema if isinstance(type_schema, Schema) else type_schema()
