@@ -5,7 +5,7 @@ marshmallow-oneofschema
 |pypi| |build-status| |marshmallow3|
 
 .. |pypi| image:: https://badgen.net/pypi/v/marshmallow-oneofschema
-    :target: https://pypi.org/project/marshmallow/
+    :target: https://pypi.org/project/marshmallow-oneofschema/
     :alt: PyPI package
 
 .. |build-status| image:: https://github.com/marshmallow-code/marshmallow-oneofschema/actions/workflows/build-release.yml/badge.svg
