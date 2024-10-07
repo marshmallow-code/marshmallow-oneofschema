@@ -26,7 +26,7 @@ Source = "https://github.com/marshmallow-code/marshmallow-oneofschema"
 
 [project.optional-dependencies]
 tests = ["pytest"]
-dev = ["marshmallow-oneofschema[tests]", "tox", "pre-commit~=3.5"]
+dev = ["marshmallow-oneofschema[tests]", "tox", "pre-commit>=3.5,<5.0"]
 
 [build-system]
 requires = ["flit_core<4"]
