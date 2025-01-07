@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import typing
 
 from marshmallow import Schema, ValidationError
@@ -59,7 +61,7 @@ class OneOfSchema(Schema):
 
     type_field = "type"
     type_field_remove = True
-    type_schemas: typing.Mapping[str, typing.Union[typing.Type[Schema], Schema]] = {}
+    type_schemas: typing.Mapping[str, type[Schema] | Schema] = {}
 
     def get_obj_type(self, obj):
         """Returns name of the schema during dump() calls, given the object

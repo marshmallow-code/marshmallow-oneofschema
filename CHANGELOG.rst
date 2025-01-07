@@ -1,6 +1,14 @@
 Changelog
 ---------
 
+3.2.0 (unreleased)
+******************
+
+Support:
+
+- Support Python 3.9-3.13.
+- Support marshmallow 3-4.
+
 3.1.1 (2024-02-13)
 ++++++++++++++++++
 

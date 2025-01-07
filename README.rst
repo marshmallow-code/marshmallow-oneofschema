@@ -12,9 +12,9 @@ marshmallow-oneofschema
     :target: https://github.com/marshmallow-code/flask-marshmallow/actions/workflows/build-release.yml
     :alt: Build status
 
-.. |marshmallow3| image:: https://badgen.net/badge/marshmallow/3
+.. |marshmallow-support| image:: https://badgen.net/badge/marshmallow/3,4?list=1
     :target: https://marshmallow.readthedocs.io/en/latest/upgrading.html
-    :alt: marshmallow 3 compatible
+    :alt: marshmallow 3|4 compatible
 
 An extension to marshmallow to support schema (de)multiplexing.
 
