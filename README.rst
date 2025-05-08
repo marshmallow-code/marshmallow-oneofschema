@@ -2,13 +2,19 @@
 marshmallow-oneofschema
 =======================
 
-.. image:: https://github.com/marshmallow-code/marshmallow-oneofschema/actions/workflows/build-release.yml/badge.svg
-    :target: https://github.com/marshmallow-code/flask-marshmallow/actions/workflows/build-release.yml
-    :alt: Build Status
+|pypi| |build-status| |marshmallow3|
 
-.. image:: https://badgen.net/badge/marshmallow/3
+.. |pypi| image:: https://badgen.net/pypi/v/marshmallow-oneofschema
+    :target: https://pypi.org/project/marshmallow-oneofschema/
+    :alt: PyPI package
+
+.. |build-status| image:: https://github.com/marshmallow-code/marshmallow-oneofschema/actions/workflows/build-release.yml/badge.svg
+    :target: https://github.com/marshmallow-code/flask-marshmallow/actions/workflows/build-release.yml
+    :alt: Build status
+
+.. |marshmallow-support| image:: https://badgen.net/badge/marshmallow/3,4?list=1
     :target: https://marshmallow.readthedocs.io/en/latest/upgrading.html
-    :alt: marshmallow 3 compatible
+    :alt: marshmallow 3|4 compatible
 
 An extension to marshmallow to support schema (de)multiplexing.
 

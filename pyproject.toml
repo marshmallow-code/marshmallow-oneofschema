@@ -26,7 +26,7 @@ Source = "https://github.com/marshmallow-code/marshmallow-oneofschema"
 
 [project.optional-dependencies]
 tests = ["pytest"]
-dev = ["marshmallow-oneofschema[tests]", "tox", "pre-commit~=3.5"]
+dev = ["marshmallow-oneofschema[tests]", "tox", "pre-commit>=3.5,<5.0"]
 
 [build-system]
 requires = ["flit_core<4"]
@@ -54,3 +54,10 @@ select = [
     "UP", # pyupgrade
     "W",  # pycodestyle warning
 ]
+
+[tool.mypy]
+ignore_missing_imports = true
+warn_unreachable = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+no_implicit_optional = true
