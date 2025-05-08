@@ -115,7 +115,9 @@ class OneOfSchema(Schema):
 
         schema = type_schema if isinstance(type_schema, Schema) else type_schema()
 
-        schema.context.update(getattr(self, "context", {}))
+        # marshmallow 3 compatibility -- handle updates to the schema.context
+        if hasattr(schema, "context"):
+            schema.context.update(getattr(self, "context", {}))
 
         result = schema.dump(obj, many=False, **kwargs)
         if result is not None:
@@ -183,7 +185,9 @@ class OneOfSchema(Schema):
 
         schema = type_schema if isinstance(type_schema, Schema) else type_schema()
 
-        schema.context.update(getattr(self, "context", {}))
+        # marshmallow 3 compatibility -- handle updates to the schema.context
+        if hasattr(schema, "context"):
+            schema.context.update(getattr(self, "context", {}))
 
         return schema.load(data, many=False, partial=partial, unknown=unknown, **kwargs)
 
