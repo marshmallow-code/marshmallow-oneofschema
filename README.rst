@@ -2,7 +2,7 @@
 marshmallow-oneofschema
 =======================
 
-|pypi| |build-status| |marshmallow3|
+|pypi| |build-status| |marshmallow-support|
 
 .. |pypi| image:: https://badgen.net/pypi/v/marshmallow-oneofschema
     :target: https://pypi.org/project/marshmallow-oneofschema/
