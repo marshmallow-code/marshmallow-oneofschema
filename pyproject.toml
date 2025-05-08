@@ -1,6 +1,6 @@
 [project]
 name = "marshmallow-oneofschema"
-version = "3.1.1"
+version = "3.2.0"
 description = "marshmallow multiplexing schema"
 readme = "README.rst"
 license = { file = "LICENSE" }
