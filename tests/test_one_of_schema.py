@@ -234,6 +234,24 @@ class TestOneOfSchema:
             3: {"value": ["Not a valid integer."]},
         } == exc_info.value.messages
 
+    def test_load_error_valid_data(self):
+        with pytest.raises(m.ValidationError) as exc_info:
+            MySchema().load({"type": "Foo", "value": 123})
+
+        assert exc_info.value.valid_data == {}
+
+    def test_load_error_valid_data_many(self):
+        with pytest.raises(m.ValidationError) as exc_info:
+            MySchema().load(
+                [
+                    {"type": "Foo", "value": 123},
+                    {"type": "Foo", "value": "hello"},
+                ],
+                many=True,
+            )
+
+        assert exc_info.value.valid_data == [{}, Foo("hello")]
+
     def test_load_partial_specific(self):
         result = MySchema().load({"type": "Foo"}, partial=("value", "value2"))
         assert Foo() == result
