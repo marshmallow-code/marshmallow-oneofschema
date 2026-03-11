@@ -24,9 +24,10 @@ Issues = "https://github.com/marshmallow-code/marshmallow-oneofschema/issues"
 Funding = "https://opencollective.com/marshmallow"
 Source = "https://github.com/marshmallow-code/marshmallow-oneofschema"
 
-[project.optional-dependencies]
+[dependency-groups]
 tests = ["pytest"]
-dev = ["marshmallow-oneofschema[tests]", "tox", "pre-commit>=3.5,<5.0"]
+dev = [{include-group = "tests"}, "tox", "pre-commit>=3.5,<5.0"]
+
 
 [build-system]
 requires = ["flit_core<4"]
