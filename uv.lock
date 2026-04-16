@@ -144,7 +144,7 @@ tests = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "marshmallow", specifier = ">=3.0.0,<5.0.0" }]
+requires-dist = [{ name = "marshmallow", specifier = ">=4.0.0,<5.0.0" }]
 
 [package.metadata.requires-dev]
 dev = [
