@@ -2,6 +2,10 @@ version = 1
 revision = 3
 requires-python = ">=3.10"
 
+[options]
+exclude-newer = "2026-04-20T14:39:06.556128334Z"
+exclude-newer-span = "P1W"
+
 [[package]]
 name = "backports-datetime-fromisoformat"
 version = "2.0.3"
