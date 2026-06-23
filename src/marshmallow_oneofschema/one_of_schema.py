@@ -133,13 +133,12 @@ class OneOfSchema(Schema):
             partial = self.partial
         if not many:
             try:
-                result = result_data = self._load(
+                result_data = self._load(
                     data, partial=partial, unknown=unknown, **kwargs
                 )
-                #  result_data.append(result)
             except ValidationError as error:
                 result_errors = error.normalized_messages()
-                result_data.append(error.valid_data)
+                result_data = error.valid_data
         else:
             for idx, item in enumerate(data):
                 try:
