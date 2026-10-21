@@ -436,3 +436,86 @@ class TestOneOfSchema:
         source_data = [{"value": "hello"}, {"type": "blahblahblah", "value": 111}]
         loaded_data = schema.load(source_data, many=True)
         assert source_data == loaded_data
+
+    def test_load_child_schema_unknown_meta(self):
+        class FooIncludeSchema(m.Schema):
+            class Meta:
+                unknown = m.INCLUDE
+
+            value = f.String(required=True)
+
+        class BarExcludeSchema(m.Schema):
+            class Meta:
+                unknown = m.EXCLUDE
+
+            value = f.Integer(required=True)
+
+        class MySchema(OneOfSchema):
+            type_schemas = {"foo": FooIncludeSchema, "bar": BarExcludeSchema}
+
+        schema = MySchema()
+
+        res_include = schema.load(
+            {"type": "foo", "value": "hello", "extra_field": "kept"}
+        )
+        assert res_include == {"value": "hello", "extra_field": "kept"}
+
+        res_exclude = schema.load(
+            {"type": "bar", "value": 123, "extra_field": "dropped"}
+        )
+        assert res_exclude == {"value": 123}
+
+    def test_load_unknown_override(self):
+        class FooIncludeSchema(m.Schema):
+            class Meta:
+                unknown = m.INCLUDE
+
+            value = f.String(required=True)
+
+        class MySchema(OneOfSchema):
+            type_schemas = {"foo": FooIncludeSchema}
+
+        schema = MySchema()
+        with pytest.raises(m.ValidationError) as exc_info:
+            schema.load(
+                {"type": "foo", "value": "hello", "extra": "err"},
+                unknown=m.RAISE,
+            )
+        assert "extra" in exc_info.value.messages
+
+        class MyStrictSchema(OneOfSchema):
+            class Meta:
+                unknown = m.RAISE
+
+            type_schemas = {"foo": FooIncludeSchema}
+
+        strict_schema = MyStrictSchema()
+        with pytest.raises(m.ValidationError) as exc_info:
+            strict_schema.load({"type": "foo", "value": "hello", "extra": "err"})
+        assert "extra" in exc_info.value.messages
+
+    def test_load_many_unknown(self):
+        class FooIncludeSchema(m.Schema):
+            class Meta:
+                unknown = m.INCLUDE
+
+            value = f.String(required=True)
+
+        class MySchema(OneOfSchema):
+            type_schemas = {"foo": FooIncludeSchema}
+
+        schema = MySchema()
+        data = [
+            {"type": "foo", "value": "a", "extra": 1},
+            {"type": "foo", "value": "b", "extra": 2},
+        ]
+        res = schema.load(data, many=True)
+        assert res == [
+            {"value": "a", "extra": 1},
+            {"value": "b", "extra": 2},
+        ]
+
+        with pytest.raises(m.ValidationError) as exc_info:
+            schema.load(data, many=True, unknown=m.RAISE)
+        assert 0 in exc_info.value.messages
+        assert "extra" in exc_info.value.messages[0]
