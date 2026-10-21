@@ -4,6 +4,10 @@ Changelog
 unreleased
 **********
 
+Bug fixes:
+
+- Respect child schema's ``unknown`` option during load unless overridden (#216).
+
 Support:
 
 - Support Python 3.10-3.14.

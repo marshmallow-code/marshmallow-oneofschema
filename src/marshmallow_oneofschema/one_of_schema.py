@@ -3,6 +3,13 @@ from __future__ import annotations
 import typing
 
 from marshmallow import Schema, ValidationError
+from marshmallow.schema import SchemaOpts
+
+
+class OneOfSchemaOpts(SchemaOpts):
+    def __init__(self, meta: type, **kwargs: typing.Any) -> None:
+        super().__init__(meta, **kwargs)
+        self.unknown: str | None = getattr(meta, "unknown", None)  # type: ignore[assignment]
 
 
 class OneOfSchema(Schema):
@@ -59,6 +66,7 @@ class OneOfSchema(Schema):
     setting `type_field` class property.
     """
 
+    OPTIONS_CLASS: type = OneOfSchemaOpts
     type_field = "type"
     type_field_remove = True
     type_schemas: typing.Mapping[str, type[Schema] | Schema] = {}
@@ -143,7 +151,9 @@ class OneOfSchema(Schema):
         else:
             for idx, item in enumerate(data):
                 try:
-                    result = self._load(item, partial=partial, **kwargs)
+                    result = self._load(
+                        item, partial=partial, unknown=unknown, **kwargs
+                    )
                     result_data.append(result)
                 except ValidationError as error:
                     result_errors[idx] = error.normalized_messages()
@@ -163,7 +173,8 @@ class OneOfSchema(Schema):
             raise ValidationError({"_schema": f"Invalid data type: {data}"})
 
         data = dict(data)
-        unknown = unknown or self.unknown
+        if unknown is None:
+            unknown = self.unknown
         data_type = self.get_data_type(data)
 
         if data_type is None:
