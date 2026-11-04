@@ -6,7 +6,7 @@ unreleased
 
 Support:
 
-- Support Python 3.10-3.14.
+- Support Python 3.11-3.15.
 - Drop support for marshmallow 3, which is EOL.
 
 3.2.0 (2025-05-08)
